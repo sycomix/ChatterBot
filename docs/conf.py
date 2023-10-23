@@ -46,10 +46,7 @@ master_doc = 'index'
 # General information about the project
 project = 'ChatterBot'
 author = config['chatterbot']['author']
-copyright = '{}, {}'.format(
-    datetime.now().year,
-    author
-)
+copyright = f'{datetime.now().year}, {author}'
 
 # The full version, including alpha/beta/rc tags
 release = config['chatterbot']['version']

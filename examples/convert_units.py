@@ -18,4 +18,4 @@ questions = [
 # Prints the convertion given the specific question
 for question in questions:
     response = bot.get_response(question)
-    print(question + ' -  Response: ' + response.text)
+    print(f'{question} -  Response: {response.text}')

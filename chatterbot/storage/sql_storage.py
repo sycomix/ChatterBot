@@ -121,7 +121,7 @@ class SQLStorageAdapter(StorageAdapter):
         if type(tags) == str:
             tags = [tags]
 
-        if len(kwargs) == 0:
+        if not kwargs:
             statements = session.query(Statement).filter()
         else:
             statements = session.query(Statement).filter_by(**kwargs)
@@ -138,7 +138,7 @@ class SQLStorageAdapter(StorageAdapter):
 
         if exclude_text_words:
             or_word_query = [
-                Statement.text.ilike('%' + word + '%') for word in exclude_text_words
+                Statement.text.ilike(f'%{word}%') for word in exclude_text_words
             ]
             statements = statements.filter(
                 ~or_(*or_word_query)
@@ -189,8 +189,7 @@ class SQLStorageAdapter(StorageAdapter):
             kwargs['search_text'] = self.tagger.get_text_index_string(kwargs['text'])
 
         if 'search_in_response_to' not in kwargs:
-            in_response_to = kwargs.get('in_response_to')
-            if in_response_to:
+            if in_response_to := kwargs.get('in_response_to'):
                 kwargs['search_in_response_to'] = self.tagger.get_text_index_string(in_response_to)
 
         statement = Statement(**kwargs)
@@ -241,9 +240,7 @@ class SQLStorageAdapter(StorageAdapter):
             if not statement.search_in_response_to and statement.in_response_to:
                 statement_model_object.search_in_response_to = self.tagger.get_text_index_string(statement.in_response_to)
 
-            new_tags = set(tag_data) - set(create_tags.keys())
-
-            if new_tags:
+            if new_tags := set(tag_data) - set(create_tags.keys()):
                 existing_tags = session.query(Tag).filter(
                     Tag.name.in_(new_tags)
                 )

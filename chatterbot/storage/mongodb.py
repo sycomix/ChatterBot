@@ -90,7 +90,7 @@ class MongoDatabaseAdapter(StorageAdapter):
         if exclude_text:
             if 'text' not in kwargs:
                 kwargs['text'] = {}
-            elif 'text' in kwargs and isinstance(kwargs['text'], str):
+            elif isinstance(kwargs['text'], str):
                 text = kwargs.pop('text')
                 kwargs['text'] = {
                     '$eq': text
@@ -100,20 +100,18 @@ class MongoDatabaseAdapter(StorageAdapter):
         if exclude_text_words:
             if 'text' not in kwargs:
                 kwargs['text'] = {}
-            elif 'text' in kwargs and isinstance(kwargs['text'], str):
+            elif isinstance(kwargs['text'], str):
                 text = kwargs.pop('text')
                 kwargs['text'] = {
                     '$eq': text
                 }
-            exclude_word_regex = '|'.join([
-                '.*{}.*'.format(word) for word in exclude_text_words
-            ])
+            exclude_word_regex = '|'.join([f'.*{word}.*' for word in exclude_text_words])
             kwargs['text']['$not'] = re.compile(exclude_word_regex)
 
         if persona_not_startswith:
             if 'persona' not in kwargs:
                 kwargs['persona'] = {}
-            elif 'persona' in kwargs and isinstance(kwargs['persona'], str):
+            elif isinstance(kwargs['persona'], str):
                 persona = kwargs.pop('persona')
                 kwargs['persona'] = {
                     '$eq': persona
@@ -121,9 +119,9 @@ class MongoDatabaseAdapter(StorageAdapter):
             kwargs['persona']['$not'] = re.compile('^bot:*')
 
         if search_text_contains:
-            or_regex = '|'.join([
-                '{}'.format(re.escape(word)) for word in search_text_contains.split(' ')
-            ])
+            or_regex = '|'.join(
+                [f'{re.escape(word)}' for word in search_text_contains.split(' ')]
+            )
             kwargs['search_text'] = re.compile(or_regex)
 
         mongo_ordering = []
@@ -135,9 +133,7 @@ class MongoDatabaseAdapter(StorageAdapter):
                 order_by.remove('created_at')
                 mongo_ordering.append(('created_at', pymongo.DESCENDING, ))
 
-            for order in order_by:
-                mongo_ordering.append((order, pymongo.ASCENDING))
-
+            mongo_ordering.extend((order, pymongo.ASCENDING) for order in order_by)
         total_statements = self.statements.find(kwargs).count()
 
         for start_index in range(0, total_statements, page_size):

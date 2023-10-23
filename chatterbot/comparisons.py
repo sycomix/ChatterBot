@@ -51,10 +51,7 @@ class LevenshteinDistance(Comparator):
             statement_b_text
         )
 
-        # Calculate a decimal percent of the similarity
-        percent = round(similarity.ratio(), 2)
-
-        return percent
+        return round(similarity.ratio(), 2)
 
 
 class SpacySimilarity(Comparator):
@@ -138,16 +135,14 @@ class JaccardSimilarity(Comparator):
         document_a = self.nlp(statement_a.text.lower())
         document_b = self.nlp(statement_b.text.lower())
 
-        statement_a_lemmas = set([
+        statement_a_lemmas = {
             token.lemma_ for token in document_a if not token.is_stop
-        ])
-        statement_b_lemmas = set([
+        }
+        statement_b_lemmas = {
             token.lemma_ for token in document_b if not token.is_stop
-        ])
+        }
 
         # Calculate Jaccard similarity
         numerator = len(statement_a_lemmas.intersection(statement_b_lemmas))
         denominator = float(len(statement_a_lemmas.union(statement_b_lemmas)))
-        ratio = numerator / denominator
-
-        return ratio
+        return numerator / denominator

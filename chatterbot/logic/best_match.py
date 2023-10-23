@@ -36,9 +36,9 @@ class BestMatch(LogicAdapter):
             if result.confidence >= self.maximum_similarity_threshold:
                 break
 
-        self.chatbot.logger.info('Using "{}" as a close match to "{}" with a confidence of {}'.format(
-            closest_match.text, input_statement.text, closest_match.confidence
-        ))
+        self.chatbot.logger.info(
+            f'Using "{closest_match.text}" as a close match to "{input_statement.text}" with a confidence of {closest_match.confidence}'
+        )
 
         recent_repeated_responses = filters.get_recent_repeated_responses(
             self.chatbot,
@@ -46,9 +46,9 @@ class BestMatch(LogicAdapter):
         )
 
         for index, recent_repeated_response in enumerate(recent_repeated_responses):
-            self.chatbot.logger.info('{}. Excluding recent repeated response of "{}"'.format(
-                index, recent_repeated_response
-            ))
+            self.chatbot.logger.info(
+                f'{index}. Excluding recent repeated response of "{recent_repeated_response}"'
+            )
 
         response_selection_parameters = {
             'search_in_response_to': closest_match.search_text,
@@ -79,9 +79,7 @@ class BestMatch(LogicAdapter):
 
         if response_list:
             self.chatbot.logger.info(
-                'Selecting response from {} optimal responses.'.format(
-                    len(response_list)
-                )
+                f'Selecting response from {len(response_list)} optimal responses.'
             )
 
             response = self.select_response(
@@ -91,16 +89,14 @@ class BestMatch(LogicAdapter):
             )
 
             response.confidence = closest_match.confidence
-            self.chatbot.logger.info('Response selected. Using "{}"'.format(response.text))
+            self.chatbot.logger.info(f'Response selected. Using "{response.text}"')
         elif alternate_response_list:
             '''
             The case where there was no responses returned for the selected match
             but a value exists for the statement the match is in response to.
             '''
             self.chatbot.logger.info(
-                'Selecting response from {} optimal alternate responses.'.format(
-                    len(alternate_response_list)
-                )
+                f'Selecting response from {len(alternate_response_list)} optimal alternate responses.'
             )
             response = self.select_response(
                 input_statement,
@@ -109,7 +105,9 @@ class BestMatch(LogicAdapter):
             )
 
             response.confidence = closest_match.confidence
-            self.chatbot.logger.info('Alternate response selected. Using "{}"'.format(response.text))
+            self.chatbot.logger.info(
+                f'Alternate response selected. Using "{response.text}"'
+            )
         else:
             response = self.get_default_response(input_statement)
 

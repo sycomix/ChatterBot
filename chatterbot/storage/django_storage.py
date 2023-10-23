@@ -86,8 +86,7 @@ class DjangoStorageAdapter(StorageAdapter):
         if order_by:
             statements = statements.order_by(*order_by)
 
-        for statement in statements.iterator():
-            yield statement
+        yield from statements.iterator()
 
     def create(self, **kwargs):
         """

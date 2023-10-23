@@ -52,12 +52,10 @@ class PosLemmaTagger(object):
                     token for token in document if token.is_alpha
                 ]
 
-            for index in range(1, len(tokens)):
-                bigram_pairs.append('{}:{}'.format(
-                    tokens[index - 1].pos_,
-                    tokens[index].lemma_.lower()
-                ))
-
+            bigram_pairs.extend(
+                f'{tokens[index - 1].pos_}:{tokens[index].lemma_.lower()}'
+                for index in range(1, len(tokens))
+            )
         if not bigram_pairs:
             bigram_pairs = [
                 token.lemma_.lower() for token in document

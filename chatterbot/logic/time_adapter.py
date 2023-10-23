@@ -66,27 +66,22 @@ class TimeLogicAdapter(LogicAdapter):
         """
         Provide an analysis of significant features in the string.
         """
-        features = {}
-
         # A list of all words from the known sentences
         all_words = " ".join(self.positive + self.negative).split()
 
-        # A list of the first word in each of the known sentence
-        all_first_words = []
-        for sentence in self.positive + self.negative:
-            all_first_words.append(
-                sentence.split(' ', 1)[0]
-            )
-
+        all_first_words = [
+            sentence.split(' ', 1)[0] for sentence in self.positive + self.negative
+        ]
+        features = {
+            f'first_word({word})': (word in all_first_words)
+            for word in text.split()
+        }
         for word in text.split():
-            features['first_word({})'.format(word)] = (word in all_first_words)
-
-        for word in text.split():
-            features['contains({})'.format(word)] = (word in all_words)
+            features[f'contains({word})'] = (word in all_words)
 
         for letter in 'abcdefghijklmnopqrstuvwxyz':
-            features['count({})'.format(letter)] = text.lower().count(letter)
-            features['has({})'.format(letter)] = (letter in text.lower())
+            features[f'count({letter})'] = text.lower().count(letter)
+            features[f'has({letter})'] = (letter in text.lower())
 
         return features
 

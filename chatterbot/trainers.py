@@ -56,12 +56,11 @@ class Trainer(object):
             super().__init__(message or default)
 
     def _generate_export_data(self):
-        result = []
-        for statement in self.chatbot.storage.filter():
-            if statement.in_response_to:
-                result.append([statement.in_response_to, statement.text])
-
-        return result
+        return [
+            [statement.in_response_to, statement.text]
+            for statement in self.chatbot.storage.filter()
+            if statement.in_response_to
+        ]
 
     def export_for_training(self, file_path='./export.json'):
         """
@@ -141,9 +140,9 @@ class ChatterBotCorpusTrainer(Trainer):
 
                 if self.show_training_progress:
                     utils.print_progress_bar(
-                        'Training ' + str(os.path.basename(file_path)),
+                        f'Training {str(os.path.basename(file_path))}',
                         conversation_count + 1,
-                        len(corpus)
+                        len(corpus),
                     )
 
                 previous_statement_text = None
@@ -237,7 +236,7 @@ class UbuntuCorpusTrainer(Trainer):
             return file_path
 
         with open(file_path, 'wb') as open_file:
-            print('Downloading %s' % url)
+            print(f'Downloading {url}')
             response = requests.get(url, stream=True)
             total_length = response.headers.get('content-length')
 
@@ -258,7 +257,7 @@ class UbuntuCorpusTrainer(Trainer):
             # Add a new line after the download bar
             sys.stdout.write('\n')
 
-        print('Download location: %s' % file_path)
+        print(f'Download location: {file_path}')
         return file_path
 
     def extract(self, file_path):
@@ -274,9 +273,7 @@ class UbuntuCorpusTrainer(Trainer):
 
         def track_progress(members):
             sys.stdout.write('.')
-            for member in members:
-                # This will be the current file being extracted
-                yield member
+            yield from members
 
         with tarfile.open(file_path) as tar:
             tar.extractall(path=self.extracted_data_directory, members=track_progress(tar))

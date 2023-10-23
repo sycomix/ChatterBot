@@ -95,7 +95,7 @@ class AbstractBaseStatement(models.Model, StatementMixin):
 
     def __str__(self):
         if len(self.text.strip()) > 60:
-            return '{}...'.format(self.text[:57])
+            return f'{self.text[:57]}...'
         elif len(self.text.strip()) > 0:
             return self.text
         return '<empty>'

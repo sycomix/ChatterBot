@@ -29,9 +29,7 @@ class StorageAdapter(object):
 
         model_name is case insensitive.
         """
-        get_model_method = getattr(self, 'get_%s_model' % (
-            model_name.lower(),
-        ))
+        get_model_method = getattr(self, f'get_{model_name.lower()}_model')
 
         return get_model_method()
 
@@ -41,9 +39,7 @@ class StorageAdapter(object):
 
         object_name is case insensitive.
         """
-        get_model_method = getattr(self, 'get_%s_object' % (
-            object_name.lower(),
-        ))
+        get_model_method = getattr(self, f'get_{object_name.lower()}_object')
 
         return get_model_method()
 

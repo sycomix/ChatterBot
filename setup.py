@@ -2,6 +2,7 @@
 """
 ChatterBot setup file.
 """
+
 import os
 import sys
 import platform
@@ -11,10 +12,7 @@ from setuptools import setup
 
 if sys.version_info[0] < 3:
     raise Exception(
-        'You are tying to install ChatterBot on Python version {}.\n'
-        'Please install ChatterBot in Python 3 instead.'.format(
-            platform.python_version()
-        )
+        f'You are tying to install ChatterBot on Python version {platform.python_version()}.\nPlease install ChatterBot in Python 3 instead.'
     )
 
 config = configparser.ConfigParser()
@@ -36,7 +34,7 @@ REQUIREMENTS = []
 DEPENDENCIES = []
 
 with open('requirements.txt') as requirements:
-    for requirement in requirements.readlines():
+    for requirement in requirements:
         if requirement.startswith('git+git://'):
             DEPENDENCIES.append(requirement)
         else:
@@ -47,7 +45,7 @@ setup(
     name='ChatterBot',
     version=VERSION,
     url=URL,
-    download_url='{}/tarball/{}'.format(URL, VERSION),
+    download_url=f'{URL}/tarball/{VERSION}',
     project_urls={
         'Documentation': 'https://chatterbot.readthedocs.io',
     },
@@ -93,5 +91,5 @@ setup(
         'Programming Language :: Python :: 3.8',
         'Programming Language :: Python :: 3 :: Only',
     ],
-    test_suite='tests'
+    test_suite='tests',
 )

@@ -120,7 +120,7 @@ class UnitConversion(LogicAdapter):
         target_parsed = match.group("target")
         n_statement = match.group("number")
 
-        if n_statement == 'a' or n_statement == 'an':
+        if n_statement in ['a', 'an']:
             n_statement = '1.0'
 
         n = mathparse.parse(n_statement, self.language.ISO_639.upper())

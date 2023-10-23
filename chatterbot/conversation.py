@@ -46,19 +46,12 @@ class StatementMixin(object):
         :returns: A dictionary representation of the statement object.
         :rtype: dict
         """
-        data = {}
-
-        for field_name in self.get_statement_field_names():
-            format_method = getattr(self, 'get_{}'.format(
-                field_name
-            ), None)
-
-            if format_method:
-                data[field_name] = format_method()
-            else:
-                data[field_name] = getattr(self, field_name)
-
-        return data
+        return {
+            field_name: format_method()
+            if (format_method := getattr(self, f'get_{field_name}', None))
+            else getattr(self, field_name)
+            for field_name in self.get_statement_field_names()
+        }
 
 
 class Statement(StatementMixin):
@@ -111,7 +104,7 @@ class Statement(StatementMixin):
         return self.text
 
     def __repr__(self):
-        return '<Statement text:%s>' % (self.text)
+        return f'<Statement text:{self.text}>'
 
     def save(self):
         """

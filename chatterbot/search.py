@@ -77,9 +77,7 @@ class IndexedTextSearch:
                 best_confidence_so_far = confidence
                 statement.confidence = confidence
 
-                self.chatbot.logger.info('Similar text found: {} {}'.format(
-                    statement.text, confidence
-                ))
+                self.chatbot.logger.info(f'Similar text found: {statement.text} {confidence}')
 
                 yield statement
 
@@ -151,8 +149,6 @@ class TextSearch:
                 best_confidence_so_far = confidence
                 statement.confidence = confidence
 
-                self.chatbot.logger.info('Similar text found: {} {}'.format(
-                    statement.text, confidence
-                ))
+                self.chatbot.logger.info(f'Similar text found: {statement.text} {confidence}')
 
                 yield statement

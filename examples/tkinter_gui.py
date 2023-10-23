@@ -59,7 +59,12 @@ class TkinterGUIExample(tk.Tk):
 
         self.conversation['state'] = 'normal'
         self.conversation.insert(
-            tk.END, "Human: " + user_input + "\n" + "ChatBot: " + str(response.text) + "\n"
+            tk.END,
+            f"Human: {user_input}"
+            + "\n"
+            + "ChatBot: "
+            + str(response.text)
+            + "\n",
         )
         self.conversation['state'] = 'disabled'
 

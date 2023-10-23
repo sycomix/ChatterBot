@@ -53,9 +53,7 @@ def validate_adapter_class(validate_class, adapter_class):
 
         if 'import_path' not in validate_class:
             raise Adapter.InvalidAdapterTypeException(
-                'The dictionary {} must contain a value for "import_path"'.format(
-                    str(validate_class)
-                )
+                f'The dictionary {str(validate_class)} must contain a value for "import_path"'
             )
 
         # Set the class to the import path for the next check
@@ -63,10 +61,7 @@ def validate_adapter_class(validate_class, adapter_class):
 
     if not issubclass(import_module(validate_class), adapter_class):
         raise Adapter.InvalidAdapterTypeException(
-            '{} must be a subclass of {}'.format(
-                validate_class,
-                adapter_class.__name__
-            )
+            f'{validate_class} must be a subclass of {adapter_class.__name__}'
         )
 
 

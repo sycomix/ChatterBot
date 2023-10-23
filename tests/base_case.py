@@ -18,9 +18,7 @@ class ChatBotTestCase(TestCase):
         Assert that an iterable has the given length.
         """
         if len(item) != length:
-            raise AssertionError(
-                'Length {} is not equal to {}'.format(len(item), length)
-            )
+            raise AssertionError(f'Length {len(item)} is not equal to {length}')
 
     def get_kwargs(self):
         return {

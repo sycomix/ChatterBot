@@ -85,7 +85,7 @@ class DateTimeParsingFunctionIntegrationTestCases(TestCase):
         input_text = 'today'
         parser = parsing.datetime_parsing(input_text)
         self.assertIn(input_text, parser[0])
-        self.assertEqual(parser[0][1].strftime('%d'), datetime.today().strftime('%d'))
+        self.assertEqual(parser[0][1].strftime('%d'), datetime.now().strftime('%d'))
         self.assertEqual(len(parser), 1)
 
     def test_captured_pattern_tomorrow(self):
@@ -94,7 +94,7 @@ class DateTimeParsingFunctionIntegrationTestCases(TestCase):
         self.assertIn(input_text, parser[0])
         self.assertEqual(
             parser[0][1].strftime('%d'),
-            (datetime.today() + timedelta(days=1)).strftime('%d')
+            (datetime.now() + timedelta(days=1)).strftime('%d'),
         )
         self.assertEqual(len(parser), 1)
 
@@ -104,7 +104,7 @@ class DateTimeParsingFunctionIntegrationTestCases(TestCase):
         self.assertIn(input_text, parser[0])
         self.assertEqual(
             parser[0][1].strftime('%d'),
-            (datetime.today() - timedelta(days=1)).strftime('%d')
+            (datetime.now() - timedelta(days=1)).strftime('%d'),
         )
         self.assertEqual(len(parser), 1)
 
@@ -114,7 +114,7 @@ class DateTimeParsingFunctionIntegrationTestCases(TestCase):
         self.assertIn(input_text, parser[0])
         self.assertEqual(
             parser[0][1].strftime('%d'),
-            (datetime.today() - timedelta(days=2)).strftime('%d')
+            (datetime.now() - timedelta(days=2)).strftime('%d'),
         )
         self.assertEqual(len(parser), 1)
 
@@ -124,7 +124,7 @@ class DateTimeParsingFunctionIntegrationTestCases(TestCase):
         self.assertIn(input_text, parser[0])
         self.assertEqual(
             parser[0][1].strftime('%d'),
-            (datetime.today() - timedelta(days=1)).strftime('%d')
+            (datetime.now() - timedelta(days=1)).strftime('%d'),
         )
         self.assertEqual(len(parser), 1)
 
@@ -134,7 +134,7 @@ class DateTimeParsingFunctionIntegrationTestCases(TestCase):
         self.assertIn(input_text, parser[0])
         self.assertEqual(
             parser[0][1].strftime('%d'),
-            (datetime.today() - timedelta(days=0)).strftime('%d')
+            (datetime.now() - timedelta(days=0)).strftime('%d'),
         )
         self.assertEqual(len(parser), 1)
 
@@ -143,7 +143,7 @@ class DateTimeParsingFunctionIntegrationTestCases(TestCase):
         self.assertIn(input_text, parser[0])
         self.assertEqual(
             parser[0][1].strftime('%d'),
-            (datetime.today() - timedelta(days=2)).strftime('%d')
+            (datetime.now() - timedelta(days=2)).strftime('%d'),
         )
         self.assertEqual(len(parser), 1)
 
@@ -184,7 +184,7 @@ class DateTimeParsingFunctionIntegrationTestCases(TestCase):
         self.assertIn(input_text, parser[0])
         self.assertEqual(
             parser[0][1].strftime('%d-%m-%Y'),
-            (datetime.today() + timedelta(weeks=3)).strftime('%d-%m-%Y')
+            (datetime.now() + timedelta(weeks=3)).strftime('%d-%m-%Y'),
         )
         self.assertEqual(len(parser), 1)
 
@@ -194,7 +194,7 @@ class DateTimeParsingFunctionIntegrationTestCases(TestCase):
         self.assertIn(input_text, parser[0])
         self.assertEqual(
             parser[0][1].strftime('%d-%m-%Y'),
-            (datetime.today() + timedelta(weeks=2)).strftime('%d-%m-%Y')
+            (datetime.now() + timedelta(weeks=2)).strftime('%d-%m-%Y'),
         )
         self.assertEqual(len(parser), 1)
 
@@ -204,7 +204,7 @@ class DateTimeParsingFunctionIntegrationTestCases(TestCase):
         self.assertIn(input_text, parser[0])
         self.assertEqual(
             parser[0][1].strftime('%d-%m-%Y'),
-            (datetime.today() + timedelta(days=8)).strftime('%d-%m-%Y')
+            (datetime.now() + timedelta(days=8)).strftime('%d-%m-%Y'),
         )
         self.assertEqual(len(parser), 1)
 
@@ -214,7 +214,7 @@ class DateTimeParsingFunctionIntegrationTestCases(TestCase):
         self.assertIn(input_text, parser[0])
         self.assertEqual(
             parser[0][1].strftime('%d-%m-%Y'),
-            (datetime.today() + timedelta(days=14)).strftime('%d-%m-%Y')
+            (datetime.now() + timedelta(days=14)).strftime('%d-%m-%Y'),
         )
         self.assertEqual(len(parser), 1)
 
@@ -224,7 +224,7 @@ class DateTimeParsingFunctionIntegrationTestCases(TestCase):
         self.assertIn('Next 10 year', parser[0])
         self.assertEqual(
             parser[0][1].strftime('%d-%m-%Y'),
-            (datetime.today() + timedelta(10 * 365)).strftime('%d-%m-%Y')
+            (datetime.now() + timedelta(10 * 365)).strftime('%d-%m-%Y'),
         )
         self.assertEqual(len(parser), 1)
 
@@ -234,7 +234,7 @@ class DateTimeParsingFunctionIntegrationTestCases(TestCase):
         self.assertIn('next 43 Year', parser[0])
         self.assertEqual(
             parser[0][1].strftime('%d-%m-%Y'),
-            (datetime.today() + timedelta(43 * 365)).strftime('%d-%m-%Y')
+            (datetime.now() + timedelta(43 * 365)).strftime('%d-%m-%Y'),
         )
         self.assertEqual(len(parser), 1)
 
@@ -242,7 +242,7 @@ class DateTimeParsingFunctionIntegrationTestCases(TestCase):
         import calendar
         input_text = 'Next 11 months'
         parser = parsing.datetime_parsing(input_text)
-        relative_date = datetime.today()
+        relative_date = datetime.now()
         month = relative_date.month - 1 + 11
         year = relative_date.year + month // 12
         month = month % 12 + 1
@@ -257,7 +257,7 @@ class DateTimeParsingFunctionIntegrationTestCases(TestCase):
         import calendar
         input_text = 'next 55 Months'
         parser = parsing.datetime_parsing(input_text)
-        relative_date = datetime.today()
+        relative_date = datetime.now()
         month = relative_date.month - 1 + 55
         year = relative_date.year + month // 12
         month = month % 12 + 1
@@ -294,7 +294,7 @@ class DateTimeParsingFunctionIntegrationTestCases(TestCase):
         input_text = 'You have to woke up at 5 am in the morning'
         parser = parsing.datetime_parsing(input_text)
         self.assertIn('5 am', parser[0])
-        self.assertEqual(parser[0][1].strftime('%d'), datetime.today().strftime('%d'))
+        self.assertEqual(parser[0][1].strftime('%d'), datetime.now().strftime('%d'))
         self.assertEqual(parser[0][1].strftime('%H'), '05')
         self.assertEqual(len(parser), 1)
 
@@ -302,7 +302,7 @@ class DateTimeParsingFunctionIntegrationTestCases(TestCase):
         input_text = '7 AM'
         parser = parsing.datetime_parsing(input_text)
         self.assertIn('7 AM', parser[0])
-        self.assertEqual(parser[0][1].strftime('%d'), datetime.today().strftime('%d'))
+        self.assertEqual(parser[0][1].strftime('%d'), datetime.now().strftime('%d'))
         self.assertEqual(parser[0][1].strftime('%H'), '07')
         self.assertEqual(len(parser), 1)
 
@@ -310,7 +310,7 @@ class DateTimeParsingFunctionIntegrationTestCases(TestCase):
         input_text = '1 Am'
         parser = parsing.datetime_parsing(input_text)
         self.assertIn('1 Am', parser[0])
-        self.assertEqual(parser[0][1].strftime('%d'), datetime.today().strftime('%d'))
+        self.assertEqual(parser[0][1].strftime('%d'), datetime.now().strftime('%d'))
         self.assertEqual(parser[0][1].strftime('%H'), '01')
         self.assertEqual(len(parser), 1)
 
@@ -318,7 +318,7 @@ class DateTimeParsingFunctionIntegrationTestCases(TestCase):
         input_text = '9aM'
         parser = parsing.datetime_parsing(input_text)
         self.assertIn('9aM', parser[0])
-        self.assertEqual(parser[0][1].strftime('%d'), datetime.today().strftime('%d'))
+        self.assertEqual(parser[0][1].strftime('%d'), datetime.now().strftime('%d'))
         self.assertEqual(parser[0][1].strftime('%H'), '09')
         self.assertEqual(len(parser), 1)
 
@@ -326,7 +326,7 @@ class DateTimeParsingFunctionIntegrationTestCases(TestCase):
         input_text = 'Your dental appointment at 4 pm in the evening.'
         parser = parsing.datetime_parsing(input_text)
         self.assertIn('4 pm', parser[0])
-        self.assertEqual(parser[0][1].strftime('%d'), datetime.today().strftime('%d'))
+        self.assertEqual(parser[0][1].strftime('%d'), datetime.now().strftime('%d'))
         self.assertEqual(parser[0][1].strftime('%H'), '16')
         self.assertEqual(len(parser), 1)
 
@@ -334,7 +334,7 @@ class DateTimeParsingFunctionIntegrationTestCases(TestCase):
         input_text = '8 PM'
         parser = parsing.datetime_parsing(input_text)
         self.assertIn('8 PM', parser[0])
-        self.assertEqual(parser[0][1].strftime('%d'), datetime.today().strftime('%d'))
+        self.assertEqual(parser[0][1].strftime('%d'), datetime.now().strftime('%d'))
         self.assertEqual(parser[0][1].strftime('%H'), '20')
         self.assertEqual(len(parser), 1)
 
@@ -342,7 +342,7 @@ class DateTimeParsingFunctionIntegrationTestCases(TestCase):
         input_text = '11 pM'
         parser = parsing.datetime_parsing(input_text)
         self.assertIn('11 pM', parser[0])
-        self.assertEqual(parser[0][1].strftime('%d'), datetime.today().strftime('%d'))
+        self.assertEqual(parser[0][1].strftime('%d'), datetime.now().strftime('%d'))
         self.assertEqual(parser[0][1].strftime('%H'), '23')
         self.assertEqual(len(parser), 1)
 
@@ -350,7 +350,7 @@ class DateTimeParsingFunctionIntegrationTestCases(TestCase):
         input_text = '3Pm'
         parser = parsing.datetime_parsing(input_text)
         self.assertIn('3Pm', parser[0])
-        self.assertEqual(parser[0][1].strftime('%d'), datetime.today().strftime('%d'))
+        self.assertEqual(parser[0][1].strftime('%d'), datetime.now().strftime('%d'))
         self.assertEqual(parser[0][1].strftime('%H'), '15')
         self.assertEqual(len(parser), 1)
 

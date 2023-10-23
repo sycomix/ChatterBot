@@ -6,7 +6,7 @@ from chatterbot.exceptions import OptionalDependencyImportError
 
 try:
     from chatterbot_corpus.corpus import DATA_DIRECTORY
-except (ImportError, ModuleNotFoundError):
+except ImportError:
     # Default to the home directory of the current user
     DATA_DIRECTORY = os.path.join(
         Path.home(),
@@ -34,7 +34,7 @@ def get_file_path(dotted_path, extension='json'):
 
     corpus_path = os.path.join(*parts)
 
-    path_with_extension = '{}.{}'.format(corpus_path, extension)
+    path_with_extension = f'{corpus_path}.{extension}'
     if os.path.exists(path_with_extension):
         corpus_path = path_with_extension
 
@@ -67,7 +67,7 @@ def list_corpus_files(dotted_path):
     paths = []
 
     if os.path.isdir(corpus_path):
-        paths = glob.glob(corpus_path + '/**/*.' + CORPUS_EXTENSION, recursive=True)
+        paths = glob.glob(f'{corpus_path}/**/*.{CORPUS_EXTENSION}', recursive=True)
     else:
         paths.append(corpus_path)
 
